@@ -1,0 +1,57 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+/**
+ * Product media data template
+ *
+ * @var $block \Magento\Catalog\Block\Product\View\Gallery
+ * @var $escaper \Magento\Framework\Escaper
+ */
+?>
+
+<?php
+$images = $block->getGalleryImages()->getItems();
+$mainImage = current(array_filter($images, function ($img) use ($block) {
+    return $block->isMainImage($img);
+}));
+
+if (!empty($images) && empty($mainImage)) {
+    $mainImage = $block->getGalleryImages();
+}
+
+$helper = $block->getData('imageHelper');
+$mainImageData = $mainImage ?
+    $mainImage->getData('medium_image_url') :
+    $helper->getDefaultPlaceholderUrl('image');
+$imageWidth = $block->getImageAttribute('product_page_image_medium', 'width');
+$imageHeight = $block->getImageAttribute('product_page_image_medium', 'height');
+
+?>
+<div class="gallery-placeholder _block-content-loading" style="display: none">
+    <img
+        alt="main product photo"
+        class="gallery-placeholder__image"
+        src="<?= /* @noEscape */ $mainImageData ?>"
+        <?= $imageWidth ? 'width="'. $escaper->escapeHtmlAttr($imageWidth) .'"' : '' ?>
+        <?= $imageHeight ? 'height="'. $escaper->escapeHtmlAttr($imageHeight) .'"' : '' ?>
+    />
+</div>
+<div 
+    data-gallery-role="gallery-placeholder-custom" 
+    class="gallery-images <?php if (count($images) >= 5) { echo "annotation"; } ?>" 
+    data-mage-init='{"Magento_Catalog/js/gallery-slider": {}}'
+>
+    <?php foreach ($images as $image): ?>
+        <img
+            alt="<?= /* @noEscape */ $escaper->escapeHtml($image->getLabel()) ?>"
+            class="gallery-image"
+            src="<?= /* @noEscape */ $image->getData('medium_image_url') ?>"
+            width="<?= $imageWidth ?>"
+            height="<?= $imageHeight ?>"
+        />
+    <?php endforeach; ?>
+</div>
+
+<?php // phpcs:ignore Magento2.Legacy.PhtmlTemplate ?>

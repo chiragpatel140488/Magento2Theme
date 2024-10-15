@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!-- Root element for the page layout -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+
+    <!-- Body section for the page layout -->
+    <body>
+        
+        <!-- Referencing the "content" container to add custom containers/elements -->
+        <referenceContainer name="content">
+
+            <!-- Creating a new container named "product.media.information" for product media and info -->
+            <container name="product.media.information" htmlTag="div" htmlClass="product-media-information"/>
+        </referenceContainer>
+
+        <!-- The following elements are moved into the newly created "product.media.information" container for structural purposes -->
+        <move element="product.info.media" destination="product.media.information" before="-" />
+        <move element="product.info.main" destination="product.media.information" before="product.info.media" />
+        <move element="product.info.details" destination="product.media.information" after="product.info.main" />
+
+        <!-- Move short description below product title -->
+        <move element="product.info.overview" destination="product.info.main" after="page.main.title" />
+
+        <!-- Moving the "product.info.social" block to be positioned after the "product.info.media" block -->
+        <move element="product.info.social" destination="product.info.media" after="-" />
+
+        <referenceBlock name="product.attributes" >
+            <arguments>
+                <argument name="title" xsi:type="string">Information</argument>
+            </arguments>
+        </referenceBlock>
+
+        <!-- Add payment content using CMS block -->
+        <referenceContainer name="product.info.main">
+            <block class="Magento\Cms\Block\Block" name="pdp.payment.block" after="-">
+                <arguments>
+                    <argument name="block_id" xsi:type="string">pdp-payment-block</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+
+        <!-- Add PDP figma content at the bottom using CMS block -->
+        <referenceContainer name="content">
+            <container name="product.bottom.info" htmlTag="div" htmlClass="product-bottom-info" after="-">
+                <block class="Magento\Cms\Block\Block" name="pdp.bottom.information">
+                    <arguments>
+                        <argument name="block_id" xsi:type="string">pdp-bottom-information</argument>
+                    </arguments>
+                </block>
+            </container>
+        </referenceContainer>
+
+        <!-- Removing the below elements from the layout -->
+        <referenceContainer name="breadcrumbs" remove="true"/>
+        <referenceContainer name="product.info.review" remove="true"/>
+        <referenceContainer name="view.addto.compare" remove="true"/>
+        <referenceContainer name="product.info.stock.sku" remove="true"/>
+    </body>
+</page>

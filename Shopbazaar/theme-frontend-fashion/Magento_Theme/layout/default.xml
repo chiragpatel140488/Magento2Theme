@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+
+        <!-- Referencing the "header-wrapper" container to add a custom container for header elements -->
+        <referenceContainer name="header-wrapper">
+
+            <!-- Creating a new container named "header-right" for right-aligned header elements -->
+            <container name="header-right" htmlTag="div" htmlClass="header-right"/>
+        </referenceContainer>
+
+        <!-- Moving the "navigation.sections" block into the "header-wrapper" after the logo -->
+        <move element="navigation.sections" destination="header-wrapper" after="logo" />
+
+        <!-- Moving the below elements block into the "header-right" container -->
+        <!-- Positioned before any other elements in "header-right" -->
+        <move element="top.search" destination="header-right" before="-" />
+
+        <!-- Positioned before "top.links" -->
+        <move element="minicart" destination="header-right" before="top.links" />
+
+        <!-- Positioned after the "minicart" -->
+        <move element="authorization-link" destination="header-right" after="minicart" />
+
+        <!-- Removing the below elements from the layout -->
+        <referenceContainer name="header.panel.wrapper" remove="true"/>
+        <referenceContainer name="compare-link-wrapper" remove="true"/>
+        
+    </body>
+</page>
