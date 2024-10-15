@@ -777,26 +777,27 @@
         }
 
         // Desktop annotations
-        .gallery-images.annotation {
+        .gallery-images {
             display: flex;
             flex-wrap: wrap;
+            gap: 8px;
 
-            .gallery-image {
-                width: 100%;
+            &.annotation {
+                .gallery-image {
+                    width: 100%;
 
-                &:nth-child(3n + 3),
-                &:nth-child(3n + 2) {
-                    width: 50%;
-                }
+                    &:nth-child(3n + 3),
+                    &:nth-child(3n + 2) {
+                        width: ~'calc(50% - 4px)';
+                    }
 
-                &:last-child {
-                    flex: 1;
+                    &:last-child {
+                        flex: 1;
+                    }
                 }
             }
         }
     }
-
-    
 }
 
 //
